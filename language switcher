@@ -8,21 +8,23 @@
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
-    .lang-toggle {
-      background-color: #f4f1ed;
-      color: #d96f32;
-      border: 1px solid #d96f32;
-      border-radius: 12px;
-      padding: 4px 10px;
-      font-size: 12px;
-      cursor: pointer;
-      min-width: 40px;
-      text-align: center;
-    }
+  .lang-toggle {
+    background-color: rgba(244, 241, 237, 0.6); /* песочный + прозрачность */
+    color: #d96f32;
+    border: 1px solid #d96f32;
+    border-radius: 12px;
+    padding: 6px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    min-width: 40px;
+    text-align: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
 
-  .lang-toggle:hover {
-    background-color: #d96f32;
-    color: white;
+  .lang-toggle:hover,
+  .lang-switcher.open .lang-toggle {
+    background-color: rgba(244, 241, 237, 1); /* плотный фон при наведении или открытии */
+    color: #d96f32;
   }
 
   .lang-menu {
@@ -59,7 +61,7 @@
 
 <!-- HTML структура переключателя -->
 <div class="lang-switcher" id="langSwitcher">
-  <div class="lang-toggle" onclick="document.getElementById('langSwitcher').classList.toggle('open')">
+  <div class="lang-toggle">
     EN ▼
   </div>
   <div class="lang-menu">
@@ -90,8 +92,19 @@
     };
     const currentLang = langMap[firstSegment] || "EN";
     const toggleBtn = document.querySelector(".lang-toggle");
+    const langBlock = document.getElementById("langSwitcher");
+    const arrowBlock = document.getElementById("rec1039812296");
+
     if (toggleBtn) {
       toggleBtn.innerHTML = currentLang + " ▼";
+
+      toggleBtn.addEventListener("click", () => {
+        langBlock.classList.toggle("open");
+
+        if (arrowBlock) {
+          arrowBlock.style.display = langBlock.classList.contains("open") ? "none" : "block";
+        }
+      });
     }
   });
 </script>
