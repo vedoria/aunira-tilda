@@ -1,5 +1,5 @@
 <style>
-/* Fixed position of language switcher in bottom-right corner */
+/* Fixed in bottom-right */
 .lang-fixed {
   position: fixed;
   bottom: 20px;
@@ -8,7 +8,7 @@
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* Main language button — semi-transparent background */
+/* Language switcher button — semi-transparent by default */
 .lang-dropbtn {
   background-color: rgba(244, 241, 237, 0.6);
   color: #d96f32;
@@ -20,13 +20,12 @@
   transition: background-color 0.2s, color 0.2s;
 }
 
-/* On hover — full opacity */
-.lang-dropbtn:hover {
+/* When menu is open, make it solid */
+.lang-dropbtn.active {
   background-color: rgba(244, 241, 237, 1);
-  color: #d96f32;
 }
 
-/* Dropdown menu container */
+/* Dropdown container */
 .lang-dropdown-content {
   display: none;
   position: absolute;
@@ -42,7 +41,7 @@
   padding: 4px 0;
 }
 
-/* Language links inside the dropdown */
+/* Language links */
 .lang-dropdown-content a {
   color: #d96f32;
   padding: 5px 10px;
@@ -56,7 +55,7 @@
   word-break: break-word;
 }
 
-/* Hover effect for dropdown links */
+/* Hover effect */
 .lang-dropdown-content a:hover {
   background-color: #d96f32;
   color: #fff;
@@ -67,7 +66,7 @@
 }
 </style>
 
-<!-- HTML structure -->
+<!-- HTML -->
 <div class="lang-fixed">
   <div class="lang-dropdown">
     <button class="lang-dropbtn">EN ▼</button>
@@ -84,25 +83,34 @@
   </div>
 </div>
 
-<!-- JavaScript: toggle menu and hide arrow when open -->
+<!-- JS -->
 <script>
 function toggleLangMenu() {
   const menu = document.getElementById("langMenu");
   const arrowBlock = document.getElementById("rec1039812296");
+  const btn = document.querySelector(".lang-dropbtn");
 
   const isOpen = menu.style.display === "block";
   menu.style.display = isOpen ? "none" : "block";
 
-  if (arrowBlock) arrowBlock.style.display = isOpen ? "block" : "none";
+  // Manage button style
+  if (btn) {
+    btn.classList.toggle("active", !isOpen);
+  }
+
+  // Show/hide arrow block
+  if (arrowBlock) {
+    arrowBlock.style.display = isOpen ? "block" : "none";
+  }
 }
 
-// Toggle menu on click
+// Toggle on button click
 document.querySelector(".lang-dropbtn").addEventListener("click", function(event) {
   event.stopPropagation();
   toggleLangMenu();
 });
 
-// Close menu on outside click and restore arrow
+// Close on outside click and restore arrow + button state
 document.addEventListener("click", function(e) {
   const menu = document.getElementById("langMenu");
   const btn = document.querySelector(".lang-dropbtn");
@@ -110,6 +118,7 @@ document.addEventListener("click", function(e) {
 
   if (!btn.contains(e.target) && !menu.contains(e.target)) {
     menu.style.display = "none";
+    if (btn) btn.classList.remove("active");
     if (arrowBlock) arrowBlock.style.display = "block";
   }
 });
